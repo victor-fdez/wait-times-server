@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' upload='true' generator='JOSM'>
+  <node id='-52' action='modify' visible='true' lat='31.766343287956783' lon='-106.45140061377838' />
+  <node id='-50' action='modify' visible='true' lat='31.76634160029279' lon='-106.45144626912547' />
+  <node id='-47' action='modify' visible='true' lat='31.766416701310813' lon='-106.45141748640665' />
+  <node id='-45' action='modify' visible='true' lat='31.766415857479494' lon='-106.45145718670845' />
+  <node id='-42' action='modify' visible='true' lat='31.766469862668764' lon='-106.45141550139155' />
+  <node id='-40' action='modify' visible='true' lat='31.766470706499597' lon='-106.45145817921602' />
+  <node id='-37' action='modify' visible='true' lat='31.76651627335311' lon='-106.45141649389909' />
+  <node id='-35' action='modify' visible='true' lat='31.766517117183522' lon='-106.45145917172356' />
+  <node id='-31' action='modify' visible='true' lat='31.766569434653842' lon='-106.45145817921602' />
+  <node id='-29' action='modify' visible='true' lat='31.766567746993967' lon='-106.45141649389909' />
+  <node id='-26' action='modify' visible='true' lat='31.76663862868206' lon='-106.45145321667829' />
+  <node id='-24' action='modify' visible='true' lat='31.76663525336481' lon='-106.45140855383872' />
+  <node id='-21' action='modify' visible='true' lat='31.7667508579105' lon='-106.4514383290651' />
+  <node id='-15' action='modify' visible='true' lat='31.76674663876904' lon='-106.45139862876329' />
+  <node id='-13' action='modify' visible='true' lat='31.766850429593195' lon='-106.45138969619536' />
+  <node id='-12' action='modify' visible='true' lat='31.76685211724791' lon='-106.45142641897458' />
+  <way id='-51' action='modify' visible='true'>
+    <nd ref='-45' />
+    <nd ref='-50' />
+    <nd ref='-52' />
+    <nd ref='-47' />
+  </way>
+  <way id='-46' action='modify' visible='true'>
+    <nd ref='-40' />
+    <nd ref='-45' />
+    <nd ref='-47' />
+    <nd ref='-42' />
+  </way>
+  <way id='-41' action='modify' visible='true'>
+    <nd ref='-35' />
+    <nd ref='-40' />
+    <nd ref='-42' />
+    <nd ref='-37' />
+  </way>
+  <way id='-36' action='modify' visible='true'>
+    <nd ref='-31' />
+    <nd ref='-35' />
+    <nd ref='-37' />
+    <nd ref='-29' />
+  </way>
+  <way id='-30' action='modify' visible='true'>
+    <nd ref='-24' />
+    <nd ref='-29' />
+    <nd ref='-31' />
+    <nd ref='-26' />
+  </way>
+  <way id='-25' action='modify' visible='true'>
+    <nd ref='-15' />
+    <nd ref='-24' />
+    <nd ref='-26' />
+    <nd ref='-21' />
+  </way>
+  <way id='-14' action='modify' visible='true'>
+    <nd ref='-12' />
+    <nd ref='-13' />
+    <nd ref='-15' />
+    <nd ref='-21' />
+    <nd ref='-12' />
+  </way>
+</osm>

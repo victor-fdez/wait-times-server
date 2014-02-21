@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html> <!--debug="true"-->
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Leaflet mobile example</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<!--<link rel="stylesheet" href="../../static/jsleaflet.css" />-->
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			html, body, #map {
+				height: 100%;
+			}
+		</style>
+		<script>
+			var lon = 5;
+			var lat = 40;
+			var zoom = 5;
+			var map;
+			var mapProj;
+			var ourProj;
+
+			var loadingFinished = false;
+			function checkLoadingFinished(){
+				console.log("loading finished - "+loadingFinished);
+				return loadingFinished;
+			}
+
+			var locationPoint = null;
+			var locationPointLayer = null;
+			var lastFeature = null;
+			var currentFeature = null;
+			function updateLocationPoint(lon, lat){
+				if(checkLoadingFinished()){
+					console.log("updateLocationPoint: updating location point ("+lon+","+lat+")");
+					if(locationPoint == null){
+						var added;
+						//create location geometry
+						console.log("updateLocationPoint: initializing point");
+						locationPointLayer = new OpenLayers.Layer.Vector("current location");
+						locationPoint = ourToMapTransform(new OpenLayers.Geometry.Point(lon, lat));
+						locationPointLayer.addFeatures([new OpenLayers.Feature.Vector(locationPoint, {id: 0})]);
+						console.log("updateLocationPoint: point added to layer");
+						//add location layer to map
+						added = map.addLayer(locationPointLayer);
+						console.log("updateLocationPoint: layer added to map - "+added);
+					}
+					else
+					{
+						locationPointLayer.removeAllFeatures();
+						console.log("updateLocationPoint: removing old point");
+						locationPoint = ourToMapTransform(new OpenLayers.Geometry.Point(lon, lat));
+						locationPointLayer.addFeatures([new OpenLayers.Feature.Vector(locationPoint, {id: 0})]);
+						console.log("updateLocationPoint: point added to layer");
+						//check number of features in 
+						var puentes_layer = map.getLayersByName("puentes_layer")[0];
+						console.log("updateLocationPoint: got puentes_layer with "+puentes_layer.features.length+" features");
+						var featuresArray = puentes_layer.features;
+						var isIntersected = false;
+						for(var featureIndex = 0; featureIndex < featuresArray.length; featureIndex++)
+						{
+							var feature = featuresArray[featureIndex];
+							var geometry = feature.geometry;
+							if(geometry.intersects(locationPoint))
+							{
+								console.log("updateLocationPoint: feature intersected point");
+								feature.style = { fillColor: "#000000" };	
+								puentes_layer.drawFeature(feature);
+								//store last feature
+								lastFeature = currentFeature;
+								currentFeature = feature;
+								//set previous feature to normal color, if it is not the current
+								//intersecting feature
+								if(lastFeature != null && lastFeature != currentFeature){
+									lastFeature.style = { fillColor: "#ee9900" };
+									puentes_layer.drawFeature(lastFeature);
+									console.log("updateLocationPoint: different feature intersected point");
+								}
+								isIntersected = true;
+								break;
+							}
+						}
+						if(!isIntersected){
+							if(currentFeature != null){
+								currentFeature.style = { fillColor: "#ee9900" };
+								puentes_layer.drawFeature(currentFeature);
+							}
+							console.log("updateLocationPoint: did not intersect");
+
+						}
+					}
+				}
+			}
+
+			function ourToMapTransform(lonLat){
+				return lonLat.transform(ourProj, mapProj);
+			}
+
+			function init(){
+				map = new OpenLayers.Map({
+					div: "map",
+					allOverlays: true
+				});
+
+				mapProj = new OpenLayers.Projection("EPSG:900913");
+				ourProj = new OpenLayers.Projection("EPSG:4326");
+				//OpenStretMaps Layer
+				var osm = new OpenLayers.Layer.OSM("victorstreetmaps", "http://www.cerberu.com/osm_tiles/${z}/${x}/${y}.png");
+
+				//GeoJSON layer
+				var geoJsonFormat = new OpenLayers.Format.GeoJSON({
+					/*"internalProjection": mapProj,
+					"externalProjection": ourProj*/
+				});
+				var geoJsonGetter = new OpenLayers.Protocol.HTTP({
+					"url": 'http://www.cerberu.com/~chingaman/android/wait-times-server/static/json/home.geojson',
+					"format": geoJsonFormat
+				});
+				var geoJsonLoadStrategy = [new OpenLayers.Strategy.Fixed()];
+				//create vector layer and style map
+				
+				//var style = new OpenLayers.Style(template, {context: context});
+				var geoJsonLayer1 = new OpenLayers.Layer.Vector('puentes_layer', {
+					"protocol": geoJsonGetter,
+					"strategies": geoJsonLoadStrategy
+				});
+				//var geoJsonLayer2 = new OpenLayers.Layer.Vector('Home');
+				//var something = geoJsonFormat.read(geoJsonFeatures);
+				//geoJsonLayer2.addFeatures(something);
+
+				//Markers layer
+				/*
+				var markers = new OpenLayers.Layer.Markers( "Markers" );
+				var size = new OpenLayers.Size(21,25);
+				var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+				var icon = new OpenLayers.Icon('http://www.cerberu.com/~chingaman/android/wait-times-server/static/img/marker.png', size, offset);
+				markers.addMarker(ourToMapTransform(new OpenLayers.LonLat(-106.4582764, 31.7650429)), icon);
+				*/
+				//map.addLayer(markers);
+
+
+				//add layers to map
+				map.addLayers([osm, geoJsonLayer1]);
+				osm.setVisibility(true);
+				geoJsonLayer1.setVisibility(true);
+				map.zoomToMaxExtent();
+				//map.setCenter(new OpenLayers.LonLat(3351, 6664), 15)
+				map.setCenter(ourToMapTransform(new OpenLayers.LonLat(-106.4935459, 31.7763894)), 18)
+				map.addControl(new OpenLayers.Control.LayerSwitcher());
+				//map.setCenter(new OpenLayers.LonLat(31.7650429, -106.4512764), 14)
+				loadingFinished = true;
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<div id="map"></div>
+		<!--<script src="../js/openlayers/lib/Firebug/firebug.js"></script>-->
+			<script src="../js/openlayers/lib/OpenLayers.js"></script>
+		</body>
+</html>
+
