@@ -13,3 +13,4 @@ Icon
 .Spotlight-V100
 .Trashes
 *.swp
+*.pyc
