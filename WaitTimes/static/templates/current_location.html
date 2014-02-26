@@ -107,7 +107,7 @@
 				mapProj = new OpenLayers.Projection("EPSG:900913");
 				ourProj = new OpenLayers.Projection("EPSG:4326");
 				//OpenStretMaps Layer
-				var osm = new OpenLayers.Layer.OSM("victorstreetmaps", "http://www.cerberu.com/osm_tiles/${z}/${x}/${y}.png");
+				var osm = new OpenLayers.Layer.OSM("victorstreetmaps", "http://www.cerberu.com/osm_tiles/${z}/${x}/${y}.png", {tileOptions: {crossOriginKeyword: null}});
 
 				//GeoJSON layer
 				var geoJsonFormat = new OpenLayers.Format.GeoJSON({
@@ -115,7 +115,7 @@
 					"externalProjection": ourProj*/
 				});
 				var geoJsonGetter = new OpenLayers.Protocol.HTTP({
-					"url": 'http://www.cerberu.com/~chingaman/android/wait-times-server/WaitTimes/static/json/home.geojson',
+					"url": 'http://www.cerberu.com:8001/static/json/home.geojson',
 					"format": geoJsonFormat
 				});
 				var geoJsonLoadStrategy = [new OpenLayers.Strategy.Fixed()];
