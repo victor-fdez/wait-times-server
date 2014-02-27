@@ -1,0 +1,21 @@
+<head>
+	{# Load CSS and JavaScript #}
+	{% block stylesheets %}
+
+	{% endblock %}
+	{% block scripts %}
+	<script src="{% static "libs/openlayers/lib/OpenLayers.js"></script>
+	<script src="{% static "libs/bootstrap/css/bootstrap.min.css"></script>
+	{% endblock %}
+	<title>
+		{% block title %}
+		Contact Credup
+		{% endblock %}
+	</title>
+</head>
+<body>
+	<div class="container">
+		{% block base-main %}
+		{% endblock %}
+	</div>
+</body>

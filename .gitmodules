@@ -1,3 +1,9 @@
-[submodule "WaitTimes/static/js/openlayers"]
-	path = WaitTimes/static/js/openlayers
+[submodule "WaitTimes/static/libs/jquery"]
+	path = WaitTimes/static/libs/jquery
+	url = https://github.com/jquery/jquery.git
+[submodule "WaitTimes/static/libs/openlayers"]
+	path = WaitTimes/static/libs/openlayers
 	url = https://github.com/openlayers/openlayers.git
+[submodule "WaitTimes/static/libs/bootstrap"]
+	path = WaitTimes/static/libs/bootstrap
+	url = https://github.com/twbs/bootstrap.git
