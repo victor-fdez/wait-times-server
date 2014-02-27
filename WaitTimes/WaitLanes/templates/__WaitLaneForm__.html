@@ -1,1 +1,18 @@
-{{ WaitLaneForm }}
+{% extends "WaitLanesBase.html" %}
+{% block base-main %}
+	{% load widget_mod %}
+	{% load field_mod %}
+	<form role="form" action="/WaitLanes/new" method="post">
+		{% for field in WaitLaneForm %}
+			<div class="form-group">
+				{{ field|userReadableLabel }}
+				{{ field.label_tag }}
+				{{ field|addClass:'form-control' }}
+				{{ field }}
+				{% if field|checkIsClass:"ClearableFileInput" %}
+				{% else %}
+				{% endif %}
+			</div>
+		{% endfor %}
+	</form>
+{% endblock %}

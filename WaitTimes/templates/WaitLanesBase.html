@@ -1,15 +1,17 @@
+{% load staticfiles %}
 <head>
 	{# Load CSS and JavaScript #}
 	{% block stylesheets %}
-
+	<link rel=StyleSheet href="{% static "libs/bootstrap/dist/css/bootstrap.css"%}" type="text/css" media=screen>
 	{% endblock %}
 	{% block scripts %}
-	<script src="{% static "libs/openlayers/lib/OpenLayers.js"></script>
-	<script src="{% static "libs/bootstrap/css/bootstrap.min.css"></script>
+		<script src="{% static "libs/openlayers/lib/OpenLayers.js"%}"></script>
+		<script src="{% static "libs/jquery/dist/jquery.js"%}"></script>
+		<script src="{% static "libs/bootstrap/dist/js/bootstrap.js"%}"></script>
 	{% endblock %}
 	<title>
 		{% block title %}
-		Contact Credup
+			Wait Lanes
 		{% endblock %}
 	</title>
 </head>
