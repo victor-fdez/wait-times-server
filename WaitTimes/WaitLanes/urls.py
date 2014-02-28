@@ -7,4 +7,6 @@ urlpatterns = patterns('WaitLanes',
     # url(r'^blog/', include('blog.urls')),
     url(r'^testing/?', 'views.testing'),
     url(r'^new/?', 'views.new'),
+    url(r'^edit/(\d+)/', 'views.edit'),
+    url(r'^view/(\d+)/', 'views.view'),
 )

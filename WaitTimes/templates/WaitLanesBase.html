@@ -2,12 +2,13 @@
 <head>
 	{# Load CSS and JavaScript #}
 	{% block stylesheets %}
-	<link rel=StyleSheet href="{% static "libs/bootstrap/dist/css/bootstrap.css"%}" type="text/css" media=screen>
+	<link rel=StyleSheet href="{% static "libs/bootstrap/dist/css/bootstrap.min.css"%}" type="text/css" media=screen>
 	{% endblock %}
 	{% block scripts %}
-		<script src="{% static "libs/openlayers/lib/OpenLayers.js"%}"></script>
-		<script src="{% static "libs/jquery/dist/jquery.js"%}"></script>
-		<script src="{% static "libs/bootstrap/dist/js/bootstrap.js"%}"></script>
+	{#<script src="{% static "libs/openlayers/lib/OpenLayers.js"%}"></script>#}
+		<script src="{% static "libs/openlayers.min/OpenLayers.js"%}"></script>
+		<script src="{% static "libs/jquery/dist/jquery.min.js"%}"></script>
+		<script src="{% static "libs/bootstrap/dist/js/bootstrap.min.js"%}"></script>
 	{% endblock %}
 	<title>
 		{% block title %}

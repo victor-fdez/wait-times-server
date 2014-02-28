@@ -16,3 +16,6 @@ Icon
 *.pyc
 *.sqlite3
 WaitTimes/collect/
+WaitTimes/media/
+static/libs/openlayers.min/
+WaitTimes/WaitLanes/migrations/

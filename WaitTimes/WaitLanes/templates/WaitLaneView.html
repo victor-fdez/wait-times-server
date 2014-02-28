@@ -1,0 +1,30 @@
+{% extends "WaitLanesBase.html" %}
+{% load staticfiles %}
+{% block scripts %}
+	{{ block.super }}
+	<script src="{% static "/js/WaitLanes.js"%}"></script>
+{% endblock %}
+{% block base-main %}
+	{% load widget_mod %}
+	{% load field_mod %}
+	<div class="container">
+		<div class="row">
+			<h2>{{ WaitLane.name }}       <small>{{ WaitLane.id }}</small></h2>
+		</div>
+		{#{{ WaitLane|diry }}#}
+		{% for fieldName, fieldValue in WaitLane.items %}
+			{% if "File" in fieldName %}
+				<div class="row" class="col-md-12">
+					<h4>{{ fieldName|returnUserReadableLabel }}</h4>
+				</div>
+				<div class="row">
+					<p>/media/{{ fieldValue }}</p>
+				</div>
+				<div class="row">
+					<div id="map_{{fieldName}}" class="col-md-12">
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endblock %}

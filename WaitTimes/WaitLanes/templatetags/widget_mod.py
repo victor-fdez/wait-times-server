@@ -12,4 +12,8 @@ def checkIsClass(value, arg):
 
 @register.filter
 def debug(value):
+	return str(value)
+
+@register.filter
+def diry(value):
 	return dir(value)

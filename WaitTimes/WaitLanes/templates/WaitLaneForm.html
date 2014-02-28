@@ -2,11 +2,14 @@
 {% block base-main %}
 	{% load widget_mod %}
 	{% load field_mod %}
-	<form role="form" action="/WaitLanes/new" method="post">
+	<form role="form" action="/WaitLanes/new" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ WaitLaneForm.non_field_errors }}
 		{% for field in WaitLaneForm %}
 			<div class="form-group">
 				{{ field|userReadableLabel }}
 				{{ field.label_tag }}
+				{{ field.errors }}
 				{{ field|addClass:'form-control' }}
 				{{ field }}
 				{% if field|checkIsClass:"ClearableFileInput" %}
@@ -14,5 +17,6 @@
 				{% endif %}
 			</div>
 		{% endfor %}
+		<button type="submit" class="btn btn-default">Create</button>
 	</form>
 {% endblock %}
