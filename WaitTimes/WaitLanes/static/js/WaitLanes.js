@@ -4,7 +4,7 @@
 * fileUrl - the geojson file url
 */
 function showGeoJsonOnMap(divId, fileUrl){
-	map = new OpenLayers.map({
+	map = new OpenLayers.Map({
 		div: divId,
 		allOverlays: true
 	});

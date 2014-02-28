@@ -4,6 +4,9 @@
 	{% load staticfiles %}
 	<script src="{% static "js/WaitLanes.js"%}"></script>
 {% endblock %}
+{% block body %}
+	<body onLoad="init()">
+{% endblock %}
 {% block base-main %}
 	{% load widget_mod %}
 	{% load field_mod %}
@@ -27,4 +30,11 @@
 			{% endif %}
 		{% endfor %}
 	</div>
+	<script>
+		function init()	{
+		{% for fieldName, fieldValue in WaitLane.items %}
+			showGeoJsonOnMap("map_{{fieldName}}","/media/{{fieldValue}}");
+		{% endfor %}
+		}
+	</script>
 {% endblock %}
