@@ -1,5 +1,9 @@
+<!DOCTYPE html>
 {% load staticfiles %}
 <head>
+	{% block meta %}
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% endblock %}
 	{# Load CSS and JavaScript #}
 	{% block stylesheets %}
 	<link rel=StyleSheet href="{% static "libs/bootstrap/dist/css/bootstrap.min.css"%}" type="text/css" media=screen>

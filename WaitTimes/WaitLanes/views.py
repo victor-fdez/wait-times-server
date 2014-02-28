@@ -12,15 +12,17 @@ def testing(request):
 
 @csrf_protect
 def new(request):
+	contextVariables = {'submitName':'Create', 'submitAction':"/WaitLanes/new/"}
 	if request.method == 'GET':
 		f = WaitLaneForm()	
+		contextVariables['WaitLaneForm'] = f
 	elif request.method == 'POST':
 		f = WaitLaneForm(request.POST, request.FILES)
-		#pdb.set_trace()		
+		contextVariables['WaitLaneForm'] = f
 		if f.is_valid():
 			waitLane = f.save()
 			return redirect("/WaitLanes/edit/"+str(waitLane.id)+"/")
-	return render(request, 'WaitLaneForm.html', dictionary={'WaitLaneForm': f})
+	return render(request, 'WaitLaneForm.html', dictionary=contextVariables)
 
 def view(request, waitLaneStrId):
 	waitLaneId = int(waitLaneStrId)	
@@ -31,9 +33,25 @@ def view(request, waitLaneStrId):
 		return render(request, 'WaitLaneDoesNotExist.html', dictionary={'id': waitLaneId})
 
 
-def edit(request, waitLaneId):
-	pdb.set_trace()		
-	return redirect('/static/templates/current_location.html')
+def edit(request, waitLaneStrId):
+	#pdb.set_trace()		
+	waitLaneId = int(waitLaneStrId)	
+	contextVariables = {'submitName':'save', 'submitAction':"/WaitLanes/edit/"+waitLaneStrId+"/"}
+	try:
+		waitLane = instance=WaitLane.objects.get(id=waitLaneId)
+		if request.method == 'GET':
+			f = WaitLaneForm(instance=waitLane)
+			contextVariables['WaitLaneForm'] = f
+			return render(request, 'WaitLaneForm.html', dictionary=contextVariables)
+		elif request.method == 'POST':
+			f = WaitLaneForm(request.POST, request.FILES, instance=waitLane)
+			contextVariables['WaitLaneForm'] = f
+			if f.is_valid():
+				waitLane = f.save()
+				return redirect("/WaitLanes/edit/"+str(waitLane.id)+"/")
+			return render(request, 'WaitLaneForm.html', dictionary=contextVariables)
+	except ObjectDoesNotExist:
+		return render(request, 'WaitLaneDoesNotExist.html', dictionary={'id': waitLaneId})
 
 def list(request):
 	return redirect('/static/templates/current_location.html')

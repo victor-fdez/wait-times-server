@@ -5,11 +5,11 @@
 	<script src="{% static "js/WaitLanes.js"%}"></script>
 	<script>
 		function init()	{
-		{% for fieldName, fieldValue in WaitLane.items %}
-			{% if "File" in fieldName %}
-				showGeoJsonOnMap("map_{{fieldName}}","/media/{{fieldValue}}");
-			{% endif %}
-		{% endfor %}
+			{% for fieldName, fieldValue in WaitLane.items %}
+				{% if "File" in fieldName %}
+					maps["WLMap_{{fieldName}}"] = showGeoJsonOnMap("WLMap_{{fieldName}}","/media/{{fieldValue}}");
+				{% endif %}
+			{% endfor %}
 		}
 	</script>
 {% endblock %}
@@ -26,14 +26,16 @@
 		{#{{ WaitLane|diry }}#}
 		{% for fieldName, fieldValue in WaitLane.items %}
 			{% if "File" in fieldName %}
-				<div class="row" class="col-md-12">
-					<h4>{{ fieldName|returnUserReadableLabel }}</h4>
+				<div class="row">
+					<div class="col-md-12">
+						<h4>{{ fieldName|returnUserReadableLabel }}</h4>
+					</div>
 				</div>
 				<div class="row">
 					<p>/media/{{ fieldValue }}</p>
 				</div>
 				<div class="row">
-					<div id="map_{{fieldName}}" class="col-md-6">
+					<div id="WLMap_{{fieldName}}" class="col-md-6">
 					</div>
 				</div>
 			{% endif %}
