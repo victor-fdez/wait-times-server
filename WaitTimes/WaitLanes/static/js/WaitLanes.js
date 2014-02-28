@@ -4,7 +4,7 @@
 * fileUrl - the geojson file url
 */
 function showGeoJsonOnMap(divId, fileUrl){
-	map = new OpenLayers.Map({
+	var map = new OpenLayers.Map({
 		div: divId,
 		allOverlays: true
 	});
@@ -26,4 +26,18 @@ function showGeoJsonOnMap(divId, fileUrl){
 	map.addLayers([osm, geoJsonLayer]);
 	map.addControl(new OpenLayers.Control.LayerSwitcher());
 	map.zoomToMaxExtent();
+
+	geoJsonLayer.events.register("featuresadded", geoJsonLayer, function(object){
+		console.log("features added successfully"); //assumption
+		var features = object.features;
+		//create and array of geometries for the features
+		var geometries = new Array();
+		for(i = 0; i < features.length; i++){
+			geometries[i] = features[i].geometry;
+		}
+		var geoCollection = new OpenLayers.Geometry.Collection(geometries);
+		geoCollection.calculateBounds();
+		var bounds = geoCollection.getBounds();
+		map.zoomToExtent(bounds, true);
+	});
 }

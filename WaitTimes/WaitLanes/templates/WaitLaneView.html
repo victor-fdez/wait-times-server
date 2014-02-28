@@ -3,6 +3,15 @@
 	{{ block.super }}
 	{% load staticfiles %}
 	<script src="{% static "js/WaitLanes.js"%}"></script>
+	<script>
+		function init()	{
+		{% for fieldName, fieldValue in WaitLane.items %}
+			{% if "File" in fieldName %}
+				showGeoJsonOnMap("map_{{fieldName}}","/media/{{fieldValue}}");
+			{% endif %}
+		{% endfor %}
+		}
+	</script>
 {% endblock %}
 {% block body %}
 	<body onLoad="init()">
@@ -24,17 +33,10 @@
 					<p>/media/{{ fieldValue }}</p>
 				</div>
 				<div class="row">
-					<div id="map_{{fieldName}}" class="col-md-12">
+					<div id="map_{{fieldName}}" class="col-md-6">
 					</div>
 				</div>
 			{% endif %}
 		{% endfor %}
 	</div>
-	<script>
-		function init()	{
-		{% for fieldName, fieldValue in WaitLane.items %}
-			showGeoJsonOnMap("map_{{fieldName}}","/media/{{fieldValue}}");
-		{% endfor %}
-		}
-	</script>
 {% endblock %}
