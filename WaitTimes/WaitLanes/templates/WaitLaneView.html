@@ -19,10 +19,25 @@
 {% block base-main %}
 	{% load widget_mod %}
 	{% load field_mod %}
-	<div class="container">
-		<div class="row">
-			<h2>{{ WaitLane.name }}       <small>{{ WaitLane.id }}</small></h2>
+	<div class="page-header">
+		<h1>Viewing, <em>{{WaitLane.name}}</em>   <small>{{WaitLane.id}}</small></h1>
+	</div>
+	<div class="row" style="padding-bottom: 20px">
+		<div class="col-md-12">
+			<a href="/WaitLanes/edit/{{WaitLane.id}}/">
+			<button type="button" class="btn btn-default">
+				edit this
+			</button>
+			</a>
+			<a href="/WaitLanes/list/">
+			<button type="button" class="btn btn-default">
+				view all
+			</button>
+			</a>
 		</div>
+	</div>
+
+	<div class="container">
 		{#{{ WaitLane|diry }}#}
 		{% for fieldName, fieldValue in WaitLane.items %}
 			{% if "File" in fieldName %}

@@ -2,7 +2,28 @@
 {% block base-main %}
 	{% load widget_mod %}
 	{% load field_mod %}
+	<div class="page-header">
+		<h1>{% if formType == 'new' %}Create a new wait lane{% else %}Editing, <em>{{WaitLane.name}}</em>   <small>{{WaitLane.id}}</small>{% endif %}</h1>
+	</div>
+	<div class="row" style="padding-bottom: 20px">
+		<div class="col-md-12">
+			{% if formType == 'edit' %}
+			<a href="/WaitLanes/view/{{WaitLane.id}}/">
+			<button type="button" class="btn btn-default">
+				view this
+			</button>
+			{% endif %}
+			</a>
+			<a href="/WaitLanes/list/">
+			<button type="button" class="btn btn-default">
+				view all
+			</button>
+			</a>
+		</div>
+	</div>
+
 	<form role="form" action="{{ submitAction }}" method="post" enctype="multipart/form-data">
+
 		{% csrf_token %}
 		{{ WaitLaneForm.non_field_errors }}
 		{% for field in WaitLaneForm %}

@@ -1,0 +1,6 @@
+* add links for edit, and back in the view, and add view inside edit.
+* add more information for each bridge displayed in the list view for web administrators
+* add map view with all layers of each file projected in different colors
+* display on android list of bridges that are currently available, with current wait times for each.
+* create virtual urls that get the respective files for each bridge for eg. 1/model.json, 1/entries.json, etc... (OPTIMIZE NOW)
+

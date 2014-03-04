@@ -5,5 +5,5 @@ class WaitLaneForm(ModelForm):
 	class Meta:
 		model = WaitLane
 		#fields = [field for field in dir(WaitLane) if not callable(field) and not field.startswith("__")]
-		fields = ['name', 'boundaryFile', 'startBoundaryFile', 'modelFile']
+		fields = ['name', 'boundaryFile', 'entriesFile', 'exitsFile', 'modelFile', 'destinationCountry', 'originCountry']
 
