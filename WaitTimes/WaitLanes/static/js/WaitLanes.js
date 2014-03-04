@@ -33,13 +33,14 @@ function showGeoJsonOnMap(divId, fileUrl){
 	map.zoomToMaxExtent();
 
 	geoJsonLayer.events.register("featuresadded", geoJsonLayer, function(object){
+		console.log("features added successfully"); //assumption
 		//setup div height and width
 		var id = "#"+divId;
-		var width = $(id).width();
+		var width = $(id).parent().width();
+		$(id).width(width);
 		$(id).height(width);
-		console.log("features added successfully"); //assumption
-		var features = object.features;
 		//create and array of geometries for the features
+		var features = object.features;
 		var geometries = new Array();
 		for(i = 0; i < features.length; i++){
 			geometries[i] = features[i].geometry;

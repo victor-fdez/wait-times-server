@@ -14,4 +14,6 @@ urlpatterns = patterns('WaitLanes',
     url(r'^file/(\d+)/(exits)\.json', 'views.get_file'),
     url(r'^file/(\d+)/(entries)\.json', 'views.get_file'),
     url(r'^file/(\d+)/(boundary)\.json', 'views.get_file'),
+    #url(r'^file/(\d+)/general_info\.json', 'views.get_general_info'),
+    url(r'^file/all/list\.json', 'views.get_all_list'),
 )

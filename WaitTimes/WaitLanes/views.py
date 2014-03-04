@@ -7,6 +7,8 @@ from django.forms.models import model_to_dict
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
 from django.http import HttpResponseNotFound
+from django_decorators.decorators import json_response
+from django.utils.translation import ugettext_lazy
 from WaitLanes.forms import WaitLaneForm
 from WaitLanes.models import WaitLane
 
@@ -31,6 +33,7 @@ def view(request, waitLaneStrId):
 	waitLaneId = int(waitLaneStrId)	
 	try:
 		waitLane = model_to_dict(WaitLane.objects.get(id=waitLaneId))
+		#pdb.set_trace()
 		return render(request, 'WaitLaneView.html', dictionary={'WaitLane': waitLane})
 	except ObjectDoesNotExist:
 		return render(request, 'WaitLaneDoesNotExist.html', dictionary={'id': waitLaneId})
@@ -77,3 +80,32 @@ def get_file(request, waitLaneStrId, which):
 		return HttpResponseNotFound()
 		#return render(request, 'WaitLaneDoesNotExist.html', dictionary={'id': waitLaneId})
 
+@json_response
+def get_all_list(request):
+	waitLanes = []
+	prefix = '/WaitLanes/file/'
+	for waitLane in WaitLane.objects.all():
+		waitLanes.append({	'id': waitLane.id,
+					'name': waitLane.name,
+					'files': {
+						'model': prefix+str(waitLane.id)+'/model.json',
+						'boundary': prefix+str(waitLane.id)+'/boundary.json',
+						'entries': prefix+str(waitLane.id)+'/entries.json',
+						'exits': prefix+str(waitLane.id)+'/exits.json'
+					},
+					'origin': {
+						'country': { 
+							'code': waitLane.originCountry.code,
+							'name': unicode(ugettext_lazy(waitLane.originCountry.name)),
+							'flag': waitLane.originCountry.flag
+						}
+					},
+					'destination': {
+						'country': {
+							'code': waitLane.destinationCountry.code,
+							'name': unicode(ugettext_lazy(waitLane.destinationCountry.name)),
+							'flag': waitLane.destinationCountry.flag
+						}
+					}
+					})
+	return waitLanes

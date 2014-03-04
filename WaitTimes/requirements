@@ -1,3 +1,4 @@
 Django
 South
 django-countries
+django-decorators
