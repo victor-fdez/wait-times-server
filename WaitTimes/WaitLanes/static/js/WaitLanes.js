@@ -1,6 +1,7 @@
 
 var maps = new Object();
 var extents = new Object();
+var domain = "72.191.185.122"
 /* showGeoJsonOnMap
 * 
 * divId - string id of div used to draw map
@@ -13,13 +14,13 @@ function showGeoJsonOnMap(divId, fileUrl){
 		allOverlays: true,
 		controls: []
 	});
-	var osm = new OpenLayers.Layer.OSM("victorstreetmaps", "http://www.cerberu.com/osm_tiles/${z}/${x}/${y}.png", {tileOptions: {crossOriginKeyword: null}});
+	var osm = new OpenLayers.Layer.OSM("victorstreetmaps", "http://"+domain+"/osm_tiles/${z}/${x}/${y}.png", {tileOptions: {crossOriginKeyword: null}});
 	var geoJsonFormat = new OpenLayers.Format.GeoJSON({
 			/*"internalProjection": mapProj,
 			"externalProjection": ourProj*/
 	});
 	var geoJsonGetter = new OpenLayers.Protocol.HTTP({
-		"url": 'http://www.cerberu.com:8001'+fileUrl,
+		"url": "http://"+domain+":8001"+fileUrl,
 		"format": geoJsonFormat
 	});
 	var geoJsonLoadStrategy = [new OpenLayers.Strategy.Fixed()];

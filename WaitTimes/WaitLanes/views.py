@@ -60,6 +60,17 @@ def edit(request, waitLaneStrId):
 	except ObjectDoesNotExist:
 		return render(request, 'WaitLaneDoesNotExist.html', dictionary={'id': waitLaneId})
 
+def delete(request, waitLaneStrId):
+	waitLaneId = int(waitLaneStrId)	
+	try:
+		waitLane = instance=WaitLane.objects.get(id=waitLaneId)
+		waitLane.delete()
+	except ObjectDoesNotExist:
+		print "hello"
+		#do nothing
+	return redirect("/WaitLanes/list/")
+	
+
 def list(request):
 	waitLanes = WaitLane.objects.all()	
 	return render(request, 'WaitLaneList.html', dictionary={'WaitLanes': waitLanes})
@@ -108,4 +119,6 @@ def get_all_list(request):
 						}
 					}
 					})
-	return waitLanes
+	return { "waitLanes": waitLanes }
+
+
