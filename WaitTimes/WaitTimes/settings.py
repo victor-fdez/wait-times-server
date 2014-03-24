@@ -101,3 +101,7 @@ TEMPLATE_DIRS = (
 # Media
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = "media/"
+
+# Time
+TIME_ZONE = 'America/Denver'
+

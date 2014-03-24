@@ -19,6 +19,7 @@
 {% block base-main %}
 	{% load widget_mod %}
 	{% load field_mod %}
+<div class="container">
 	<div class="page-header">
 		<h1>Viewing, <em>{{WaitLane.name}}</em>   <small>{{WaitLane.id}}</small></h1>
 		<div style="padding-left: 10px">
@@ -62,4 +63,5 @@
 			</div>
 		{% endif %}
 	{% endfor %}
+</div>
 {% endblock %}

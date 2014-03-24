@@ -66,8 +66,7 @@ def delete(request, waitLaneStrId):
 		waitLane = instance=WaitLane.objects.get(id=waitLaneId)
 		waitLane.delete()
 	except ObjectDoesNotExist:
-		print "hello"
-		#do nothing
+		pass
 	return redirect("/WaitLanes/list/")
 	
 
@@ -91,34 +90,15 @@ def get_file(request, waitLaneStrId, which):
 		return HttpResponseNotFound()
 		#return render(request, 'WaitLaneDoesNotExist.html', dictionary={'id': waitLaneId})
 
+def get_all_geojson_map(request, waitLaneStrId):
+	return render(request, 'app/WaitLaneModelView.html', dictionary={'id': waitLaneStrId})
+
+
 @json_response
 def get_all_list(request):
 	waitLanes = []
-	prefix = '/WaitLanes/file/'
 	for waitLane in WaitLane.objects.all():
-		waitLanes.append({	'id': waitLane.id,
-					'name': waitLane.name,
-					'files': {
-						'model': prefix+str(waitLane.id)+'/model.json',
-						'boundary': prefix+str(waitLane.id)+'/boundary.json',
-						'entries': prefix+str(waitLane.id)+'/entries.json',
-						'exits': prefix+str(waitLane.id)+'/exits.json'
-					},
-					'origin': {
-						'country': { 
-							'code': waitLane.originCountry.code,
-							'name': unicode(ugettext_lazy(waitLane.originCountry.name)),
-							'flag': waitLane.originCountry.flag
-						}
-					},
-					'destination': {
-						'country': {
-							'code': waitLane.destinationCountry.code,
-							'name': unicode(ugettext_lazy(waitLane.destinationCountry.name)),
-							'flag': waitLane.destinationCountry.flag
-						}
-					}
-					})
+		waitLanes.append(waitLane.toJSON())
 	return { "waitLanes": waitLanes }
 
 
