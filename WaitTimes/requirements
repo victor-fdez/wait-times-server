@@ -3,3 +3,5 @@ South
 django-countries
 django-decorators
 pytz
+Shapely
+geojson

@@ -6,8 +6,9 @@
 <!--<script src="{% static "libs/openlayers/lib/Firebug/firebug.js" %}"></script>-->
 <script>
 	function init()	{
-		showAllWaitLaneGeoJSON("map", {{id}});
-		//maps["WLMap_{{fieldName}}"] = showGeoJsonOnMap("WLMap_{{fieldName}}","/media/{{fieldValue}}");
+		initMap("map");
+		//loadWaitLane("1");
+		//loadGeoFence("1");
 	}
 </script>
 <style type="text/css">

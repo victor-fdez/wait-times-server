@@ -1,14 +1,21 @@
 import pdb
 import os
+import json
+import geojson
+import tempfile
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import model_to_dict
 from django.core.servers.basehttp import FileWrapper
+from django.core.files import File
 from django.http import HttpResponse
 from django.http import HttpResponseNotFound
 from django_decorators.decorators import json_response
 from django.utils.translation import ugettext_lazy
+from shapely.wkt import dump, loads
+from shapely.geometry import mapping, shape
+from shapely.geometry import asShape
 from WaitLanes.forms import WaitLaneForm
 from WaitLanes.models import WaitLane
 
@@ -74,24 +81,52 @@ def list(request):
 	waitLanes = WaitLane.objects.all()	
 	return render(request, 'WaitLaneList.html', dictionary={'WaitLanes': waitLanes})
 
-def get_file(request, waitLaneStrId, which):
+def get_file(request, waitLaneStrId, which, fileType):
 	waitLaneId = str(waitLaneStrId)
 	attributeName = which+'File'
 	try:
 		waitLane = WaitLane.objects.get(id=waitLaneId)
 		fileField = getattr(waitLane, attributeName)
-		wrapper = FileWrapper(fileField.file)
-		response = HttpResponse(wrapper, content_type='application/json')
-		response['Content-Length'] = os.path.getsize(fileField.path)
-		#pdb.set_trace()
-		return response
+		if fileType == "wkt":
+			wrapper = None
+			response = None
+			with open(fileField.path, 'r') as fileObject:
+				geoJsonFile = File(fileObject)
+				geoJsonObject = geojson.load(geoJsonFile)
+				temp = tempfile.TemporaryFile()
+				for feature in geoJsonObject['features']:
+					s = shape(feature['geometry'])
+					wktGeometry = dump(s, temp)
+				#send content of temporary file
+				wrapper = FileWrapper(temp)
+				response = HttpResponse(wrapper, content_type='application/wkt')
+				#response['Content-Disposition'] = 'attachment; filename=something.wkt'
+				response['Content-Length'] = temp.tell()
+				temp.seek(0)
+				#pdb.set_trace()
+			return response
+		else:
+			wrapper = FileWrapper(fileField.file)
+			response = HttpResponse(wrapper, content_type='application/json')
+			response['Content-Length'] = os.path.getsize(fileField.path)
+			#pdb.set_trace()
+			return response
 	except ObjectDoesNotExist:
 		#FIXME should send json instead
 		return HttpResponseNotFound()
 		#return render(request, 'WaitLaneDoesNotExist.html', dictionary={'id': waitLaneId})
 
-def get_all_geojson_map(request, waitLaneStrId):
-	return render(request, 'app/WaitLaneModelView.html', dictionary={'id': waitLaneStrId})
+@json_response
+def get_info_file(request, waitLaneId):
+	try:
+		waitLane = WaitLane.objects.get(id=waitLaneId)
+		return waitLane.toJSON()
+	except ObjectDoesNotExist:
+		return None
+
+
+def get_all_geojson_map(request):
+	return render(request, 'app/WaitLaneModelView.html')
 
 
 @json_response
